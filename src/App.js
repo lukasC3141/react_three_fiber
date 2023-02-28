@@ -5,7 +5,7 @@ import Plane from "./components/mainPlane/mainPlane";
 import Chorus from "./components/chorus/chorus";
 import { Physics } from "@react-three/cannon";
 import { Player } from "./components/player/player";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { SpotLightHelper } from "three";
 import { TV } from "./components/box/TV";
 import * as THREE from "three"
@@ -34,6 +34,25 @@ const MainSettings = () => {
 
 
 function App() {
+
+  function detectMob() {
+    const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+    
+    return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+    });
+  }
+
+
+
   
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
@@ -45,7 +64,7 @@ function App() {
           <Player />
         </Physics>
       </Canvas>
-      <div className="cursor">+</div>
+      <div className="cursor">+{detectMob() ? "mobile" : "not mobile"}</div>
     </div>
   );
 }
