@@ -2,3 +2,12 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.cursor {
+  position: absolute;
+  font-size: 3rem;
+  color: rgb(255, 111, 111);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}

@@ -1,5 +1,6 @@
 import { MeshReflectorMaterial} from '@react-three/drei';
 import {useBox} from "@react-three/cannon"
+import { DoubleSide, FrontSide } from 'three';
 
 const Plane = () => {
 
@@ -10,9 +11,9 @@ const Plane = () => {
     }))
 
     return (
-      <mesh ref={ref} rotation-x={-Math.PI * 0.5} castShadow receiveShadow>
-        <planeGeometry args={[90, 90]} />
-        <MeshReflectorMaterial roughness={0.7} />
+      <mesh ref={ref} rotation-x={-Math.PI * 0.5} receiveShadow>
+        <planeGeometry args={[90, 90]}  />
+        <meshStandardMaterial  side={DoubleSide} />
       </mesh>
     )
 }
