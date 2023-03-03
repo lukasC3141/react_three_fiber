@@ -1,33 +1,47 @@
 import "./App.css"
-import { Canvas} from "@react-three/fiber"
-import { PerspectiveCamera, OrbitControls, useHelper } from '@react-three/drei';
+import { SpotLightHelper, CameraHelper } from "three";
+import { Canvas, useFrame, useThree} from "@react-three/fiber"
+import { OrbitControls, PerspectiveCamera, useHelper } from '@react-three/drei';
 import Plane from "./components/mainPlane/mainPlane";
 import Chorus from "./components/chorus/chorus";
 import { Physics } from "@react-three/cannon";
 import { Player } from "./components/player/player";
 import { useEffect, useRef } from "react";
-import { SpotLightHelper } from "three";
-import { TV } from "./components/box/TV";
-import * as THREE from "three"
+import { TV } from "./components/box/colloredCubes";
 import { FPV } from "./components/FPV/FPV";
+import { Joystick } from "./components/player/playerWithJoystick";
+
+
+
+
 
 const MainSettings = () => {
   const lightRef = useRef()
+  const camera = useRef()
+  useHelper(camera, CameraHelper , 1, "pink")
   
   
+  //  useFrame(() => {
+  //    console.log(camera.current.position)
+  //  })
   return (
     <>
       <color args={[0, 0, 0]} attach="background" />
-      <FPV/>
       <spotLight ref={lightRef}
-      position={[10, 30, 10]}
-          angle={0.5}
+      position={[-50, 30, 10]}
+          angle={0.7}
           color={0xF0F0F0}
           castShadow
           penumbra={0.2} />
       <ambientLight 
           intensity={0.4}/>
       <gridHelper args={[90, 90]} />
+      <PerspectiveCamera makeDefault ref={camera}
+       rotation={[ - Math.PI / 10, 0, 0]}
+       position={[0, 31, 24]}
+       fov={60} 
+       far={3000}
+       near={1}/>
     </>
   )
 }
@@ -51,20 +65,16 @@ function App() {
     });
   }
 
-
-
   
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <Canvas shadows>
+      <Canvas shadows camera={{position: [0, 10, 10]}} >
         <MainSettings />
         <Physics>
-          <Plane />
           <TV/>
-          <Player />
         </Physics>
       </Canvas>
-      <div className="cursor">+{detectMob() ? "mobile" : "not mobile"}</div>
+      <div className="cursor">+</div>
     </div>
   );
 }
